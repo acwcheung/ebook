@@ -1,17 +1,46 @@
-<div class="book-container">
-	<div class="book-info">
-		<h1>Radical Uncertainty: Decision-making for an unknowable future</h1>
-		<p>'Entertaining and enlightening . . . This is a necessary critique and they make it with verve, knowledge and a wealth of stories'</p>	
-		<button id="submit">USD11.44</button>		
-	</div>
-	
-	<img src="./book.jpg" alt="">	
-</div>
+<div class="bookstore"></div>
+
 <script>
+	const books = [
+		{
+			title: 'Radical Uncertainty',
+			subtitle: 'Decision-making for an unknowable future',
+			review: 'Entertaining and enlightening . . . This is a necessary critique and they make it with verve, knowledge and a wealth of stories.',			
+			amount: '1144',
+			img: 'https://m.media-amazon.com/images/I/519KHL1I2iL.jpg'
+		},
+		{
+			title: 'The Art of Strategy',
+			subtitle: "A Game Theorist's Guide to Success in Business and Life",
+			review: 'I am hard pressed to think of another book that can match the combination of practical insights and reading enjoyment.',			
+			amount: '1135',
+			img: 'https://images-na.ssl-images-amazon.com/images/I/41rgLnbD4zL._SX332_BO1,204,203,200_.jpg'	
+		},
+		{
+			title: 'Peak',
+			subtitle: "Secrets from the New Science of Expertise",
+			review: 'This book is a breakthrough, a lyrical, powerful, science-based narrative that actually shows us how to get better (much better) at the things we care about.',			
+			amount: '1111',
+			img: 'https://images-na.ssl-images-amazon.com/images/I/41gsOAxpJgL._SX326_BO1,204,203,200_.jpg'	
+		}
+	];
+
 	let stripe = Stripe('pk_test_XIm2QrsrxWFgKityjmWe3WRe00OwXmrbeY');
-	const submitBtn = document.querySelector('#submit');
+
+	const html = books.map((book, i) => {
+		return `
+			<div class="book-container">
+				<img src="${book.img}" alt="">					
+				<h1>${book.title}: ${book.subtitle}</h1>
+				<p>"${book.review}”</p>	
+				<button id="submit" onclick="startCheckout(books[${i}])">USD${book.amount/100}</button>
+			</div>
+		`
+	}).join('');
+
+	document.querySelector('.bookstore').innerHTML = html;
 	
-	function startCheckout() {
+	function startCheckout(book) {
 		// stripe.redirectToCheckout({
 		// 	items: [{ sku: 'sku_HE9aq7t4KfR39q', quantity: 1}],
 		// 	successUrl: 'http://localhost:5000/success',
@@ -20,18 +49,19 @@
 
 		//fetch to the server for the session ID
 		//redirect to checkout 
-		//with session ID, register the transaction in stripe
+		//with session ID, register the transaction in stripe		
+		
 		fetch('http://localhost:5000/charge', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({})
+			body: JSON.stringify(book)
 		}).then(data => data.json())
 		  .then(data => stripe.redirectToCheckout({sessionId: data.id}))
 		  .then(result => console.log(result.error.message));
 	}	
  
-	submitBtn.addEventListener('click', startCheckout);	
+
 </script>
 

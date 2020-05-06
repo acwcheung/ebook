@@ -26,14 +26,15 @@ app.get('/success', (req, res) => {
 //input the details of the item (to stripe server) and return session ID
 //amount is in cents, not dollar, divided by 100
 //how to access the image folder?
-app.post('/charge', (req, res) => {
+app.post('/charge', (req, res) => {		
+	const { title, amount, img} = req.body;
 	stripe.checkout.sessions.create({
 	  payment_method_types: ['card'],
 	  line_items: [{
-	    name: 'Radical Uncertainty',
+	    name: title,
 	    description: 'Ebook',
-	    images: ['https://m.media-amazon.com/images/I/519KHL1I2iL.jpg'],
-	    amount: 1144,
+	    images: [img],
+	    amount: amount,
 	    currency: 'usd',
 	    quantity: 1,
 	  }],
