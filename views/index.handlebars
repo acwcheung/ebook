@@ -1,0 +1,37 @@
+<div class="book-container">
+	<div class="book-info">
+		<h1>Radical Uncertainty: Decision-making for an unknowable future</h1>
+		<p>'Entertaining and enlightening . . . This is a necessary critique and they make it with verve, knowledge and a wealth of stories'</p>	
+		<button id="submit">USD11.44</button>		
+	</div>
+	
+	<img src="./book.jpg" alt="">	
+</div>
+<script>
+	let stripe = Stripe('pk_test_XIm2QrsrxWFgKityjmWe3WRe00OwXmrbeY');
+	const submitBtn = document.querySelector('#submit');
+	
+	function startCheckout() {
+		// stripe.redirectToCheckout({
+		// 	items: [{ sku: 'sku_HE9aq7t4KfR39q', quantity: 1}],
+		// 	successUrl: 'http://localhost:5000/success',
+		// 	cancelUrl: 'http://localhost:5000/'
+		// }).catch(error => res.json('our payment system is broken'))
+
+		//fetch to the server for the session ID
+		//redirect to checkout 
+		//with session ID, register the transaction in stripe
+		fetch('http://localhost:5000/charge', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({})
+		}).then(data => data.json())
+		  .then(data => stripe.redirectToCheckout({sessionId: data.id}))
+		  .then(result => console.log(result.error.message));
+	}	
+ 
+	submitBtn.addEventListener('click', startCheckout);	
+</script>
+
