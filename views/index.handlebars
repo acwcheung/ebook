@@ -1,4 +1,5 @@
 <div class="bookstore"></div>
+<div class="key">{{stripePublishableKey}}</div>
 
 <script>
 	const books = [
@@ -25,7 +26,8 @@
 		}
 	];
 
-	let stripe = Stripe('pk_test_XIm2QrsrxWFgKityjmWe3WRe00OwXmrbeY');
+	const key = document.querySelector('.key');	
+	let stripe = Stripe(key.innerHTML);
 
 	const html = books.map((book, i) => {
 		return `
@@ -47,7 +49,7 @@
 		// 	cancelUrl: 'http://localhost:5000/'
 		// }).catch(error => res.json('our payment system is broken'))
 
-		//fetch to the server for the session ID
+		//fetch the session ID from the server
 		//redirect to checkout 
 		//with session ID, register the transaction in stripe		
 		

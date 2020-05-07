@@ -4,7 +4,7 @@
 }
 
 body {
-	background-color: #00ffff;
+	background-color: #eee;
 }
 
 div.heading-container {
@@ -16,13 +16,14 @@ div.heading-container {
 }
 
 div.heading-container h1 {
-	margin-left: 20%;	
+	margin-left: 5%;	
 	font-size: 2rem;
 	color: #fff;		
 }
 
 div.bookstore {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-around;
 }
 div.book-container {
@@ -70,4 +71,7 @@ div.success h3 {
 a {
 	text-decoration: none;
 	color: #fff;
+}
+.key {
+	display: none;
 }
