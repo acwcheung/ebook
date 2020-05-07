@@ -41,8 +41,8 @@ app.post('/charge', (req, res) => {
 	    currency: 'usd',
 	    quantity: 1,
 	  }],
-	  success_url: 'http://localhost:5000/success',
-	  cancel_url: 'http://localhost:5000/',
+	  success_url: 'https://enigmatic-castle-40813.herokuapp.com/success',
+	  cancel_url: 'https://enigmatic-castle-40813.herokuapp.com/',
 	})
 	.then(id => res.json(id))
 	.catch(err => res.json(err))
